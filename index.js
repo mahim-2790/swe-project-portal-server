@@ -51,6 +51,7 @@ async function run() {
 
         app.get('/projects/:studentId', async (req, res) => {
             const studentId = req.params.studentId;
+            console.log('studentid', studentId);
             const query = { student_id: studentId };
             const result = await projectsCollection.find(query).toArray();
             res.json(result);
