@@ -2,6 +2,7 @@ const express = require('express');
 const app = express();
 const cors = require('cors');
 const { MongoClient } = require('mongodb');
+const ObjectId = require('mongodb').ObjectId;
 require('dotenv').config();
 const port = process.env.PORT || 5000;
 
@@ -15,12 +16,43 @@ const client = new MongoClient(uri, { useNewUrlParser: true, useUnifiedTopology:
 async function run() {
     try {
         await client.connect();
+        console.log('connected successfully');
+
         const database = client.db('swe-project-portal');
-        const movies = database.collection('projects');
-        // Query for a movie that has the title 'Back to the Future'
-        const query = { title: 'Back to the Future' };
-        const movie = await movies.findOne(query);
-        console.log(movie);
+        const projectsCollection = database.collection('projects');
+        const usersCollection = database.collection('users');
+        const teachersCollection = database.collection('teachers');
+        const studentsCollection = database.collection('students');
+
+        app.post('/users', async (req, res) => {
+            const user = req.body;
+            console.log("user", user);
+            const result = await usersCollection.insertOne(user);
+            console.log(result);
+            res.json(result);
+        });
+
+
+        app.post('/teachers', async (req, res) => {
+            const newTeacher = req.body;
+            console.log("teacher", newTeacher);
+            const result = await teachersCollection.insertOne(newTeacher);
+            console.log(result);
+            res.json(result);
+        });
+
+        app.post('/students', async (req, res) => {
+            const newStudents = req.body;
+            console.log("student", newStudents);
+            const result = await studentsCollection.insertOne(newStudents);
+            console.log(result);
+            res.json(result);
+        });
+
+        app.get('projects', async (req, res) => {
+
+        })
+
     } finally {
         // Ensures that the client will close when you finish/error
         // await client.close();
