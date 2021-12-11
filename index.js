@@ -49,9 +49,19 @@ async function run() {
             res.json(result);
         });
 
-        app.get('projects', async (req, res) => {
+        app.get('/projects/:studentId', async (req, res) => {
+            const studentId = req.params.studentId;
+            const query = { student_id: studentId };
+            const result = await projectsCollection.find(query).toArray();
+            res.json(result);
+        });
 
-        })
+        app.get('/users/:email', async (req, res) => {
+            const email = req.params.email;
+            const query = { email: email };
+            const user = await usersCollection.findOne(query);
+            res.json(user);
+        });
 
     } finally {
         // Ensures that the client will close when you finish/error
