@@ -57,11 +57,28 @@ async function run() {
             res.json(result);
         });
 
+        app.get('/projects/:tittle', async (req, res) => {
+            const protectTittle = req.params.tittle;
+            console.log('projectTittle', projectTittle);
+            const query = { tittle: projectTittle };
+            const result = await projectsCollection.find(query).toArray;
+            res.json(result);
+        });
+
         app.get('/users/:email', async (req, res) => {
             const email = req.params.email;
             const query = { email: email };
             const user = await usersCollection.findOne(query);
             res.json(user);
+        });
+
+
+        app.post('/projects', async (req, res) => {
+            const newProject = req.body;
+            console.log("project", newProject);
+            const result = await projectsCollection.insertOne(newProject);
+            console.log(result);
+            res.json(result);
         });
 
     } finally {
