@@ -26,44 +26,30 @@ async function run() {
 
         app.post('/users', async (req, res) => {
             const user = req.body;
-            console.log("user", user);
             const result = await usersCollection.insertOne(user);
-            console.log(result);
             res.json(result);
         });
 
 
         app.post('/teachers', async (req, res) => {
             const newTeacher = req.body;
-            console.log("teacher", newTeacher);
             const result = await teachersCollection.insertOne(newTeacher);
-            console.log(result);
             res.json(result);
         });
 
         app.post('/students', async (req, res) => {
             const newStudents = req.body;
-            console.log("student", newStudents);
             const result = await studentsCollection.insertOne(newStudents);
-            console.log(result);
             res.json(result);
         });
 
         app.get('/projects/:studentId', async (req, res) => {
             const studentId = req.params.studentId;
-            console.log('studentid', studentId);
             const query = { student_id: studentId };
             const result = await projectsCollection.find(query).toArray();
             res.json(result);
         });
 
-        app.get('/projects/:tittle', async (req, res) => {
-            const protectTittle = req.params.tittle;
-            console.log('projectTittle', projectTittle);
-            const query = { tittle: projectTittle };
-            const result = await projectsCollection.find(query).toArray;
-            res.json(result);
-        });
 
         app.get('/users/:email', async (req, res) => {
             const email = req.params.email;
@@ -79,6 +65,11 @@ async function run() {
             const result = await projectsCollection.insertOne(newProject);
             console.log(result);
             res.json(result);
+        });
+
+        app.get('projects/:tittle', async (req, res) => {
+            console.log('tittlr invoked');
+
         });
 
     } finally {
