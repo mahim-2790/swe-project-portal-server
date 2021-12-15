@@ -80,6 +80,28 @@ async function run() {
 
             res.json(result);
         });
+        app.get('/project/:projectId', async (req, res) => {
+            const projectId = req.params.projectId;
+            const query = { _id: ObjectId(projectId) };
+            const result = await projectsCollection.findOne(query);
+            res.json(result);
+        });
+
+        app.put('/updateProject/:id', async (req, res) => {
+            console.log('invoked');
+
+            const id = req.params.id;
+            const project = req.body;
+            console.log(id, project);
+
+            const filter = { _id: ObjectId(id) };
+            const options = { upsert: true };
+            const updateDoc = { $set: project };
+            const result = await projectsCollection.updateOne(filter, updateDoc, options);
+            console.log(result);
+
+            res.json(result);
+        });
     } finally {
         // Ensures that the client will close when you finish/error
         // await client.close();
