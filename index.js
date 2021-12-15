@@ -67,11 +67,19 @@ async function run() {
             res.json(result);
         });
 
-        app.get('projects/:tittle', async (req, res) => {
-            console.log('tittlr invoked');
-
+        app.get('/projects', async (req, res) => {
+            const result = await projectsCollection.find().toArray();
+            console.log(result);
+            res.json(result);
         });
 
+        app.delete('/projects/:id', async (req, res) => {
+            const query = { _id: ObjectId(req.params.id) };
+            const result = await projectsCollection.deleteOne(query);
+            console.log(result);
+
+            res.json(result);
+        });
     } finally {
         // Ensures that the client will close when you finish/error
         // await client.close();
