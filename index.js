@@ -102,6 +102,27 @@ async function run() {
 
             res.json(result);
         });
+
+
+        app.get('/teachers/:teacherId', async (req, res) => {
+            const teacherId = req.params.teacherId;
+            console.log(teacherId);
+            const query = { id: teacherId };
+            const result = await teachersCollection.findOne(query);
+            console.log(result);
+
+            res.json(result);
+        });
+
+        app.get('/teacher/projects/:teacherInitial', async (req, res) => {
+            const teacherInitial = req.params.teacherInitial;
+            console.log(teacherInitial);
+            const query = { teacherInitial: teacherInitial };
+            const result = await projectsCollection.find(query).toArray();
+            console.log(result);
+
+            res.json(result);
+        });
     } finally {
         // Ensures that the client will close when you finish/error
         // await client.close();
