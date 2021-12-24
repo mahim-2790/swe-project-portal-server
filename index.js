@@ -120,6 +120,15 @@ async function run() {
             const query = { teacherInitial: teacherInitial };
             const result = await projectsCollection.find(query).toArray();
             console.log(result);
+            res.json(result);
+        });
+
+        app.get('/students/:studentId', async (req, res) => {
+            const studentId = req.params.studentId;
+            console.log(studentId);
+            const query = { id: studentId };
+            const result = await studentsCollection.findOne(query);
+            console.log(result);
 
             res.json(result);
         });
